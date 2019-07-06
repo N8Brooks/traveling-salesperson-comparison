@@ -8,7 +8,7 @@ Created on Fri Jul  5 17:51:49 2019
 import itertools
 import math
 
-DISPLAY = True
+DISPLAY = False
 
 if __name__ == '__main__':
     locations = [i for i in range(1, LOC_COUNT)]
@@ -34,12 +34,13 @@ if __name__ == '__main__':
             
             locations = [coordinates[i] for i in cur_path]
         
-            plt.clf()
-            plt.title(cur_distance)    
-            for (x1, y1), (x2, y2) in zip(locations[:-1], locations[1:]):
-                plt.plot([x1,x2], [y1,y2], 'ro-')
-            
-            plt.pause(0.1)
+            if DISPLAY:
+                plt.clf()
+                plt.title(cur_distance)    
+                for (x1, y1), (x2, y2) in zip(locations[:-1], locations[1:]):
+                    plt.plot([x1,x2], [y1,y2], 'ro-')
+                
+                plt.pause(0.1)
             
     print(min_path)
     print(min_dist)
