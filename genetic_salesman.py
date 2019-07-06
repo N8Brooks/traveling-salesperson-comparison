@@ -14,11 +14,11 @@ import itertools
 import matplotlib.pyplot as plt
 
 # change for different functionality
-LOC_COUNT = 8
+LOC_COUNT = 11
 PATH_COUNT = 100
 LEFT_COUNT = int(0.2 * PATH_COUNT)  # approxamite pareto distribution
 PLANE_LENGTH = 1000
-DISPLAY = 'best'                    # can be: all, best, dist
+DISPLAY = 'none'                    # can be: all, best, dist, none
 
 # helper global variables
 save_one = LOC_COUNT - 1
