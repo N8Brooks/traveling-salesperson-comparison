@@ -22,6 +22,7 @@ DISPLAY = 'best'                    # can be: all, best, dist
 
 # helper global variables
 save_one = LOC_COUNT - 1
+random.seed(1)
 coordinates = [(random.randrange(PLANE_LENGTH), random.randrange(PLANE_LENGTH)\
                 ) for i in range(LOC_COUNT)]
 distances = []
@@ -137,6 +138,7 @@ if __name__ == '__main__':
             if DISPLAY == 'best':
                 population[0].display('Gen {}: {}'.format(i,\
                                   population[0].distance))
+                print(population[0].distance)
             elif DISPLAY == 'dist':
                 print(population[0].distance)
         
