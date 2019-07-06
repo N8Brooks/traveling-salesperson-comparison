@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jul  1 19:42:04 2019
-
-@author: DSU
-* immutable stuff
-* static stuff
-* accumulate functions
-"""
-
 import random
 import math
 import itertools

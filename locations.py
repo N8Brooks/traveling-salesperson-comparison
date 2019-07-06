@@ -1,20 +1,26 @@
 import random
 import math
 
+class path:
+    pass
+
 class locations:
+    PLANE_LENGTH = 1000
+    
     loc_count = None
     save_one = None
-    PLANE_LENGTH = 1000
+    distances = None
+    coordinates = None
     
     def __init__(self, count, **kwargs):
         assert type(count) == type(0)
         self.loc_count = count
         
-        # create random places
+        # create random places: atlas = locations(12)
         if len(kwargs) == 0:
             self.generate_random()
             
-        # generate from seed
+        # generate from seed: atlas = locations(12, seed=1337)
         if 'seed' in kwargs.keys() and type(kwargs['seed']) == type(0):
             random.seed(kwargs['seed'])
             self.generate_random()
@@ -38,6 +44,7 @@ class locations:
         
         return cur_distance
     
+    # input should contain the implied zeroes on either end
     def calculate_distance_padded(self, cur_path):
         assert len(cur_path) == self.loc_count + 1
         

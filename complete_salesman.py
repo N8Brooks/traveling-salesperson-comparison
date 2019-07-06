@@ -1,22 +1,20 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jul  5 17:51:49 2019
-
-@author: DSU
-"""
-
 import itertools
 import math
+import matplotlib.pyplot as plt
+from locations import locations
 
-DISPLAY = False
+DISPLAY = True
 
 if __name__ == '__main__':
-    locations = [i for i in range(1, LOC_COUNT)]
-    perm = itertools.permutations(locations, save_one)
+    atlas = locations(11, seed=1337)
     
-    min_path = ()
+    loc_numbers = [i for i in range(1, atlas.loc_count)]
+    perm = itertools.permutations(loc_numbers, atlas.save_one)
+    
+    min_path = []
     min_dist = math.inf
     for tup_path in perm:
+        # pad start and end at 0
         cur_path = [0]
         cur_path.extend(i for i in tup_path)
         cur_path.append(0)
@@ -24,15 +22,13 @@ if __name__ == '__main__':
         if cur_path[-2] > cur_path[1]:
             continue
 
-        cur_distance = 0
-        for a, b, in zip(cur_path[:-1], cur_path[1:]):
-            cur_distance += distances[a][b]
+        cur_distance = atlas.calculate_distance_padded(cur_path)
         
         if cur_distance < min_dist:
             min_path = cur_path
             min_dist = cur_distance
             
-            locations = [coordinates[i] for i in cur_path]
+            locations = [atlas.coordinates[i] for i in cur_path]
         
             if DISPLAY:
                 plt.clf()
