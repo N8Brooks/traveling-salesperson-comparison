@@ -2,30 +2,21 @@ import random
 import math
 import itertools
 import matplotlib.pyplot as plt
+from datetime import datetime
+from locations import locations
 
-# change for different functionality
-LOC_COUNT = 11
-PATH_COUNT = 100
+PATH_COUNT = 100                    # number of paths per generation
 LEFT_COUNT = int(0.2 * PATH_COUNT)  # approxamite pareto distribution
-PLANE_LENGTH = 1000
-DISPLAY = 'none'                    # can be: all, best, dist, none
+DISPLAY = 'best'                    # can be: all, best, dist, none
 
-# helper global variables
-save_one = LOC_COUNT - 1
-random.seed(1)
-coordinates = [(random.randrange(PLANE_LENGTH), random.randrange(PLANE_LENGTH)\
-                ) for i in range(LOC_COUNT)]
-distances = []
-for (x_a, y_a) in coordinates:
-    distances.append([math.hypot(x_b - x_a, y_b - y_a) for (x_b, y_b) in\
-                      coordinates])
+atlas = locations(12, seed=1337)
+random.seed(datetime.now())
 
 class path:
-    global distances
     def __init__(self, *args):
         # radomize, set, or breed path
         if len(args) == 0:
-            self.path = random.sample(range(1, LOC_COUNT), save_one)
+            self.path = random.sample(range(1, atlas.loc_count), atlas.save_one)
         elif len(args) == 1:
             assert type(args[0]) == type([])
             self.path = args[0]
@@ -38,8 +29,8 @@ class path:
             
             self.path = []
             last = 0
-            legitamate = [i for i in range(1, LOC_COUNT)]
-            for node in range(save_one):
+            legitamate = [i for i in range(1, atlas.loc_count)]
+            for node in range(atlas.save_one):
                 # find first legitamate in a_par
                 a_legit = None
                 for a in par_a[node:]:
@@ -58,7 +49,7 @@ class path:
                 if b_legit == None:
                     b_legit = legitamate[0]
                 # use that node
-                if distances[last][a_legit] <= distances[last][b_legit]:
+                if atlas.distances[last][a_legit] <= atlas.distances[last][b_legit]:
                     legitamate.remove(a_legit)
                     last = a_legit
                     self.path.append(a_legit)
@@ -71,23 +62,23 @@ class path:
             assert False
             
             # mutate
-            one, two = random.sample(range(0, save_one), 2)
+            one, two = random.sample(range(0, atlas.save_one), 2)
             self.path[one], self.path[two] = self.path[two], self.path[one]
         
         # make sure it is 'clockwise'
         self.order()    
         
         # set distance
-        self.distance = distances[0][self.path[0]]
+        self.distance = atlas.distances[0][self.path[0]]
         for i, j in zip(self.path[:-1], self.path[1:]):
-            self.distance += distances[i][j]
-        self.distance += distances[self.path[-1]][0]
+            self.distance += atlas.distances[i][j]
+        self.distance += atlas.distances[self.path[-1]][0]
             
     def __hash__(self):
         # this isn't used anymore
         coefficients = []
         path_copy = self.path.copy()
-        for i in range(1, LOC_COUNT):
+        for i in range(1, atlas.loc_count):
             c = path_copy.index(i)
             coefficients.append(c)
             path_copy.pop(c)
@@ -101,9 +92,9 @@ class path:
             self.path.reverse()
     
     def display(self, text):
-        locations = [coordinates[0]]
-        locations.extend([coordinates[i] for i in self.path])
-        locations.append(coordinates[0])
+        locations = [atlas.coordinates[0]]
+        locations.extend([atlas.coordinates[i] for i in self.path])
+        locations.append(atlas.coordinates[0])
         
         plt.clf()
         plt.title(text)    
@@ -126,15 +117,12 @@ if __name__ == '__main__':
         if population[0].distance < best_path:
             best_path = population[0].distance
             if DISPLAY == 'best':
-                population[0].display('Gen {}: {}'.format(i,\
-                                  population[0].distance))
-                print(population[0].distance)
+                atlas.display_path(population[0].path, i)
             elif DISPLAY == 'dist':
                 print(population[0].distance)
         
         if DISPLAY == 'all':
-            population[0].display('Gen {}: {}'.format(i,\
-                                  population[0].distance))
+            atlas.display_path(population[0].path, i)
         
         # keep the top percent
         parents = population[:LEFT_COUNT]
