@@ -48,6 +48,7 @@ class path:
                         break
                 if b_legit == None:
                     b_legit = legitamate[0]
+                    
                 # use that node
                 if atlas.distances[last][a_legit] <= atlas.distances[last][b_legit]:
                     legitamate.remove(a_legit)

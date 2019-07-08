@@ -5,6 +5,12 @@ atlas = locations(12, seed=1337)
 mem = [[None]*(1<<atlas.loc_count)]*atlas.loc_count
 paths = [[[]]*(1<<atlas.loc_count)]*atlas.loc_count
 
+"""
+this is not working.
+
+it does not return optimal path as verified from complete_salesman.py
+"""
+
 def tsp(i, S, path):
     if S == ((1 << atlas.loc_count) - 1):
         return atlas.distances[i][0], paths[i][0]
