@@ -6,7 +6,7 @@ from locations import locations
 DISPLAY = 'best'
 
 if __name__ == '__main__':
-    atlas = locations(12, seed=1337)
+    atlas = locations(11, seed=1337)
     
     loc_numbers = [i for i in range(1, atlas.loc_count)]
     perm = itertools.permutations(loc_numbers, atlas.save_one)
@@ -23,17 +23,19 @@ if __name__ == '__main__':
         if cur_path[-2] > cur_path[1]:
             continue
 
-        cur_dist = atlas.calculate_distance_plain(cur_path)
+        cur_dist = atlas.calculate_distance(cur_path)
         
         if cur_dist < min_dist:
-            min_iteration = i
+            min_i = i
             min_path = cur_path
             min_dist = cur_dist
         
             if DISPLAY == 'improved':
-                atlas.display_path(cur_path, i)
+                text = '{}: {}'.format(i, atlas.calculate_distance(cur_path))
+                atlas.display_path(cur_path, text)
     
     if DISPLAY == 'best':
-        atlas.display_path(min_path, min_iteration)
+        text = '{}: {}'.format(min_i, atlas.calculate_distance(cur_path))
+        atlas.display_path(min_path, text)
     
     

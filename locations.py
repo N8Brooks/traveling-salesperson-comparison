@@ -76,21 +76,16 @@ class locations:
         # pad path if not padded
         cur_path = self.pad_path(cur_path)
         
-        # get distances:
-        cur_dist = self.calculate_distance(cur_path)
-        
         # get coordinates of locations
         loc_coords = [self.coordinates[i] for i in cur_path]
         
-        # generate text
-        if len(args) > 0:
-            text = '{}. - {} - {}'.format(int(args[0]), cur_dist, cur_path)
-        else:
-            text = '{} - {}'.format(cur_dist, cur_path)
-        
         # display with matplotlib
         plt.clf()
-        plt.title(text)
+        if len(args) > 0:
+            plt.title(args[0])
+        else:
+            plt.title(self.calculate_distance(cur_path))
+
         for (x1, y1), (x2, y2) in zip(loc_coords[:-1], loc_coords[1:]):
             plt.plot([x1,x2], [y1,y2], 'ro-')
         plt.pause(0.1)

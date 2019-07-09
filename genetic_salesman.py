@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from locations import locations
 
-PATH_COUNT = 100                    # number of paths per generation
-LEFT_COUNT = int(0.2 * PATH_COUNT)  # approxamite pareto distribution
-DISPLAY = 'best'                    # can be: all, best, dist, none
+PATH_COUNT = 100                     # number of paths per generation
+LEFT_COUNT = int(0.2 * PATH_COUNT)   # approxamite pareto distribution
+DISPLAY = 'best'                     # can be: all, best, dist, none
 
-atlas = locations(12, seed=1337)
+atlas = locations(16, seed=1337)
 random.seed(datetime.now())
 
 class path:
@@ -118,12 +118,14 @@ if __name__ == '__main__':
         if population[0].distance < best_path:
             best_path = population[0].distance
             if DISPLAY == 'best':
-                atlas.display_path(population[0].path, i)
+                text = 'Gen {} - {}'.format(i, best_path)
+                atlas.display_path(population[0].path, text)
             elif DISPLAY == 'dist':
                 print(population[0].distance)
         
         if DISPLAY == 'all':
-            atlas.display_path(population[0].path, i)
+            text = 'Gen {} - {}'.format(i, best_path)
+            atlas.display_path(population[0].path, text)
         
         # keep the top percent
         parents = population[:LEFT_COUNT]
