@@ -5,7 +5,7 @@ import math
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
-    atlas = locations(64, seed=1337)
+    atlas = locations(32, seed=1337)
     
     df = pd.DataFrame(atlas.distances)
     np.fill_diagonal(df.values, math.inf)

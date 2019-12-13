@@ -46,6 +46,9 @@ class locations:
         for (x_a, y_a) in self.coordinates:
             self.distances.append([math.hypot(x_b - x_a, y_b - y_a) for (x_b,\
                                    y_b) in self.coordinates])
+        
+        for x in range(self.loc_count):
+            self.distances[x][x] = math.inf
 
     def calculate_distance(self, cur_path):
         # pad if not padded

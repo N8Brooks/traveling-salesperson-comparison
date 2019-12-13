@@ -2,7 +2,7 @@ import itertools
 import math
 from locations import locations
 
-# can be 'improved', 'best', 'none'
+# can be 'improved', 'best', 'all', 'none'
 DISPLAY = 'best'
 
 if __name__ == '__main__':
@@ -33,6 +33,10 @@ if __name__ == '__main__':
             if DISPLAY == 'improved':
                 text = '{}: {}'.format(i, atlas.calculate_distance(cur_path))
                 atlas.display_path(cur_path, text)
+        
+        if DISPLAY == 'all':
+            text = '{}: {}'.format(i, atlas.calculate_distance(cur_path))
+            atlas.display_path(cur_path, text)
     
     if DISPLAY == 'best':
         text = '{}: {}'.format(min_i, atlas.calculate_distance(cur_path))

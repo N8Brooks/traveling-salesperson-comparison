@@ -6,10 +6,11 @@ from datetime import datetime
 from locations import locations
 
 PATH_COUNT = 100                     # number of paths per generation
-LEFT_COUNT = int(0.2 * PATH_COUNT)   # approxamite pareto distribution
+LEFT_COUNT = int(0.5 * PATH_COUNT)   # approxamite pareto distribution
 DISPLAY = 'best'                     # can be: all, best, dist, none
+MAX_ITER = 10000                       # maximum amount of iterations
 
-atlas = locations(16, seed=1337)
+atlas = locations(32, seed=30)
 random.seed(datetime.now())
 
 class path:
@@ -110,7 +111,7 @@ if __name__ == '__main__':
     best_path = math.inf
     
     # run until ctr + c
-    for i in itertools.count():
+    for i in range(MAX_ITER):
         # sort
         population.sort(key=lambda x: x.distance)
         
